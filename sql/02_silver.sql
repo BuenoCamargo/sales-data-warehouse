@@ -14,7 +14,7 @@ CREATE TABLE silver.products (
     price_quality TEXT NOT NULL
         CHECK (price_quality IN ('valid', 'missing', 'invalid')),
     source_run_id TEXT NOT NULL,
-    dwh_create_date DATETIME2, DEFAULT GETDATE()
+    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ===================================================
@@ -29,17 +29,17 @@ CREATE TABLE silver.customers (
     gender TEXT,
     created_at DATE,
     updated_at DATE,
-    dwh_create_date DATETIME2, DEFAULT GETDATE()
+    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- ===================================================
 -- Criando a Tabela de itens dos pedidos
 -- ===================================================
-CREATE TABLE silver.order_itens (
+CREATE TABLE silver.order_items (
     order_id INT NOT NULL,
     product_id INT NOT NULL,
-    quantity INT CHECK (quantity >= 0),
+    quantity INT,
     unit_price NUMERIC(12,2) CHECK (unit_price >= 0),
-    dwh_create_date DATETIME2, DEFAULT GETDATE()
+    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- ===================================================
 -- Criando a Tabela de pedidos
@@ -51,7 +51,7 @@ CREATE TABLE silver.orders (
     created_at DATE,
     updated_at DATE,
     delivered_at DATE,
-    dwh_create_date DATETIME2, DEFAULT GETDATE()
+    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- ===================================================
 -- Criando a Tabela de pagamentos
@@ -64,5 +64,5 @@ CREATE TABLE silver.payments (
     created_at DATE,
     paid_at DATE,
     updated_at DATE,
-    dwh_create_date DATETIME2, DEFAULT GETDATE()
+    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
