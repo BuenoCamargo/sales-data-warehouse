@@ -7,12 +7,17 @@
 -- ===================================================
 CREATE TABLE silver.products (
     product_id INT PRIMARY KEY,
-    sku TEXT,
+    product_sku TEXT,
     title TEXT NOT NULL,
-    category TEXT,
-    price NUMERIC(12,2) CHECK (price >= 0),
+    brand TEXT,
+    product_price NUMERIC(12,2) CHECK (product_price >= 0),
     price_quality TEXT NOT NULL
         CHECK (price_quality IN ('valid', 'missing', 'invalid')),
+    product_stock TEXT,
+    product_category TEXT,
+    availability_status TEXT,
+    width_dimension NUMERIC(12,2),
+    height_dimension NUMERIC(12,2),
     source_run_id TEXT NOT NULL,
     dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -39,7 +44,9 @@ CREATE TABLE silver.order_items (
     product_id INT NOT NULL,
     quantity INT,
     unit_price NUMERIC(12,2) CHECK (unit_price >= 0),
-    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+    dwh_create_date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (order_id, product_id)
 );
 -- ===================================================
 -- Criando a Tabela de pedidos
